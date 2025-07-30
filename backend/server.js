@@ -6,14 +6,7 @@ const path = require('path'); // Módulo 'path' para resolver caminhos de arquiv
 // Força o dotenv a procurar o .env no diretório onde server.js está localizado
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
-// --- Linhas de DEBUG para verificar o carregamento do .env ---
-console.log('DEBUG: DB_USER do .env:', process.env.DB_USER);
-console.log('DEBUG: PORT do .env:', process.env.PORT);
-// Para segurança, mostra apenas os primeiros caracteres da chave JWT
-console.log('DEBUG: JWT_SECRET do .env (início):', String(process.env.JWT_SECRET).substring(0, 5) + '...');
-// --- Fim das linhas de DEBUG ---
 
-// Importa a instância do aplicativo Express que foi definida em src/app.js
 // Certifique-se de que o caminho './src/app' está correto para a localização do seu app.js
 const app = require('./src/app');
 

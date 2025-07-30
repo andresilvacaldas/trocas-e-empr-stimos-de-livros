@@ -29,11 +29,17 @@ const registerValidation = [
         .withMessage('Email inválido')
         .normalizeEmail(),
     body('password')
-        .isLength({ min: 6 })
-        .withMessage('Senha deve ter pelo menos 6 caracteres'),
+        .isLength({ min: 8 }) // Mínimo de 8 caracteres
+        .withMessage('Senha deve ter pelo menos 8 caracteres')
+        .matches(/[A-Z]/) // Pelo menos uma letra maiúscula
+        .withMessage('Senha deve conter pelo menos uma letra maiúscula')
+        .matches(/[0-9]/) // Pelo menos um número
+        .withMessage('Senha deve conter pelo menos um número')
+        .matches(/[^a-zA-Z0-9\s]/) // Pelo menos um caractere especial (não alfanumérico nem espaço)
+        .withMessage('Senha deve conter pelo menos um caractere especial'),
     body('full_name')
         .optional()
-        .isLength({ max: 255 })
+        .isLength({ max: 150 })
         .withMessage('Nome completo muito longo')
 ];
 

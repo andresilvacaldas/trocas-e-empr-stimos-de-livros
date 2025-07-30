@@ -1,0 +1,14 @@
+# Dependências do Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+.env
+
+# Arquivos de log e temporários
+*.log
+*.tmp
+*.swp
+.DS_Store # Arquivos do macOS
+
+# Cache do IDE (Visual Studio Code, por exemplo)
+.vscode/
