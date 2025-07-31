@@ -1,8 +1,5 @@
-// C:\Users\Pichau\Desktop\troca e emprestimo\backend\src\app.js
-
 const express = require('express');
 const cors = require('cors');
-// require('dotenv').config(); // Não é necessário aqui, já carregamos em server.js
 
 const app = express(); // Cria a instância do aplicativo Express
 

@@ -1,5 +1,3 @@
-// C:\Users\Pichau\Desktop\trocas e emprestimo\backend\server.js
-
 const path = require('path'); // Módulo 'path' para resolver caminhos de arquivo
 
 // Carrega as variáveis de ambiente do arquivo .env
@@ -7,7 +5,7 @@ const path = require('path'); // Módulo 'path' para resolver caminhos de arquiv
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 
-// Certifique-se de que o caminho './src/app' está correto para a localização do seu app.js
+
 const app = require('./src/app');
 
 // Define a porta do servidor, usando a variável de ambiente PORT ou 3000 como padrão

@@ -1,8 +1,5 @@
-// C:\Users\Pichau\Desktop\trocas e emprestimo\backend\src\controllers\bookController.js
-
 const Book = require('../models/book'); // Importa a classe Book do seu modelo
 
-// REMOVA A DEFINIÇÃO DA CLASSE 'class BookController { ... }'
 
 // 1. Função para Listar todos os livros com filtros
 exports.getAllBooks = async (req, res) => {
@@ -184,5 +181,3 @@ exports.getMyBooks = async (req, res) => {
     }
 };
 
-// REMOVA O 'module.exports = BookController;'
-// As funções já são exportadas diretamente via 'exports.nomeDaFuncao'

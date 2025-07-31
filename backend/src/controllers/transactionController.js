@@ -1,8 +1,6 @@
 const Transaction = require('../models/transaction');
 const Book = require('../models/book'); // O modelo Book (classe) é importado
 
-// REMOVA A DEFINIÇÃO DA CLASSE 'class TransactionController { ... }'
-
 // 1. Função para Listar transações do usuário
 exports.getMyTransactions = async (req, res) => {
     try {
@@ -250,6 +248,3 @@ exports.cancelTransaction = async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 };
-
-// REMOVA O 'module.exports = TransactionController;'
-// As funções já são exportadas diretamente via 'exports.nomeDaFuncao'

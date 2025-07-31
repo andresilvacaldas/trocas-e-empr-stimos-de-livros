@@ -1,10 +1,6 @@
-// C:\Users\Pichau\Desktop\trocas e emprestimo\backend\src\controllers\authController.js
-
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Auth = require('../models/auth'); // Importa a classe Auth do seu modelo (isso permanece)
-
-// REMOVA A DEFINIÇÃO DA CLASSE 'class AuthController { ... }'
+const Auth = require('../models/auth'); // Importa a classe Auth do seu modelo 
 
 // 1. Função de Registro
 exports.register = async (req, res) => {
@@ -128,6 +124,3 @@ exports.getProfile = async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 };
-
-// REMOVA O 'module.exports = AuthController;'
-// As funções já são exportadas diretamente via 'exports.nomeDaFuncao'
