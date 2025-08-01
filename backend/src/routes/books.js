@@ -47,6 +47,8 @@ const bookValidation = [
         .isLength({ max: 1000 })
         .withMessage('Descrição muito longa'),
     body('condition')
+        .notEmpty() 
+        .withMessage('Condição é obrigatória')
         .isIn(['novo', 'usado - bom', 'usado - razoável', 'usado - ruim'])
         .withMessage('Condição inválida'),
     body('exchange_available')

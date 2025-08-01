@@ -124,3 +124,109 @@ exports.getProfile = async (req, res) => {
         res.status(500).json({ error: 'Erro interno do servidor' });
     }
 };
+
+//Atualizar perfil do usuário logado
+exports.updateProfile = async (req, res) => {
+    try {
+        const user_id = req.user.user_id; // ID do usuário vem do token JWT autenticado
+        const updateData = req.body; // Dados para atualização vêm do corpo da requisição
+
+        // Chama o método do modelo para atualizar o perfil
+        const updatedUser = await Auth.updateProfile(user_id, updateData);
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'Usuário não encontrado ou nenhum dado para atualizar.' });
+        }
+
+        res.status(200).json({
+            message: 'Perfil atualizado com sucesso',
+            user: { // Retorna apenas os dados públicos/atualizados
+                user_id: updatedUser.user_id,
+                username: updatedUser.username,
+                email: updatedUser.email,
+                full_name: updatedUser.full_name,
+                profile_picture_url: updatedUser.profile_picture_url,
+                bio: updatedUser.bio,
+                city: updatedUser.city,
+                state: updatedUser.state,
+                updated_at: updatedUser.updated_at
+            }
+        });
+
+    } catch (error) {
+        // Verifica se o erro veio da validação do modelo
+        if (error.message.includes('Nome completo muito longo') ||
+            error.message.includes('Biografia muito longa') ||
+            error.message.includes('Cidade muito longa') ||
+            error.message.includes('Estado muito longo') ||
+            error.message.includes('URL da foto de perfil inválida')) {
+            // Retorna 400 Bad Request com os detalhes da validação
+            return res.status(400).json({ error: 'Dados inválidos para atualização', details: error.message.split(', ') });
+        }
+        console.error('Erro ao atualizar perfil:', error.stack); // Loga o stack trace completo
+        res.status(500).json({ error: 'Erro interno do servidor ao atualizar perfil.' });
+    }
+};
+
+//Atualizar senha do usuário logado
+exports.changePassword = async (req, res) => {
+    try {
+        const user_id = req.user.user_id; // ID do usuário vem do token JWT autenticado
+        const { old_password, new_password } = req.body; // Senhas vêm do corpo da requisição
+
+        if (!user_id) {
+            return res.status(401).json({ error: 'Usuário não autenticado.' });
+        }
+
+        // Chama o método do modelo para mudar a senha
+        const updatedUser = await Auth.changePassword(user_id, old_password, new_password);
+
+        res.status(200).json({
+            message: 'Senha atualizada com sucesso',
+            user: { // Retorna dados básicos do usuário, sem a senha
+                user_id: updatedUser.user_id,
+                username: updatedUser.username,
+                email: updatedUser.email
+            }
+        });
+
+    } catch (error) {
+        // Tratamento de erros específicos vindos do modelo
+        if (error.message.includes('Senha antiga incorreta')) {
+            return res.status(401).json({ error: 'Senha antiga incorreta.' });
+        }
+        if (error.message.includes('Senha deve ter pelo menos 8 caracteres') ||
+            error.message.includes('Nova senha não pode ser igual') ||
+            error.message.includes('obrigatória')) { // Para pegar as mensagens de validação
+            return res.status(400).json({ error: 'Dados inválidos para atualização de senha', details: error.message.split(', ') });
+        }
+        console.error('Erro ao mudar senha:', error.stack);
+        res.status(500).json({ error: 'Erro interno do servidor ao mudar senha.' });
+    }
+};
+
+
+//Deletar a própria conta (com confirmação de leitura)
+exports.deleteAccount = async (req, res) => {
+    try {
+        const user_id = req.user.user_id;
+        const { password } = req.body; // <-- Pega a senha do corpo da requisição
+
+        const deleted = await Auth.deleteAccount(user_id, password); // <-- Passa a senha para o modelo
+
+        if (!deleted) {
+            return res.status(404).json({ error: 'Usuário não encontrado.' });
+        }
+
+        res.status(204).send(); // Resposta 204 No Content
+    } catch (error) {
+        if (error.message === 'Senha incorreta.') {
+            return res.status(401).json({ error: error.message });
+        }
+        if (error.message.includes('senha é necessária')) {
+            return res.status(400).json({ error: 'Senha é necessária para confirmar.' });
+        }
+        console.error('Erro ao deletar conta:', error.stack);
+        res.status(500).json({ error: 'Erro interno do servidor ao deletar conta.' });
+    }
+};

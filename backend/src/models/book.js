@@ -87,10 +87,10 @@ class Book {
         return {
             title: data.title?.trim(),
             author: data.author?.trim(),
-            publisher: data.publisher?.trim() || null,
+            publisher: data.publisher?.trim(),
             isbn: data.isbn?.trim() || null,
             description: data.description?.trim() || null,
-            condition: data.condition || 'usado - bom',
+            condition: data.condition,
             exchange_available: Boolean(data.exchange_available),
             loan_available: Boolean(data.loan_available),
             available: data.available !== undefined ? Boolean(data.available) : true,

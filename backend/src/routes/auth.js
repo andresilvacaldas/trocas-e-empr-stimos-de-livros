@@ -60,5 +60,8 @@ router.post('/login', loginValidation, handleValidationErrors, AuthController.lo
 
 // Rotas protegidas
 router.get('/profile', authenticateToken, AuthController.getProfile);
+router.put('/profile', authenticateToken, AuthController.updateProfile);
+router.put('/change-password', authenticateToken, AuthController.changePassword); 
+router.delete('/profile', authenticateToken, AuthController.deleteAccount);
 
 module.exports = router;

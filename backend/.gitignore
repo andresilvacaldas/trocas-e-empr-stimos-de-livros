@@ -12,3 +12,6 @@ yarn-debug.log*
 
 # Cache do IDE (Visual Studio Code, por exemplo)
 .vscode/
+
+# Ignora o arquivo de configuracao do banco de dados
+src/config/dbPgConfig.js

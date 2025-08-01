@@ -7,6 +7,7 @@ const app = express(); // Cria a instância do aplicativo Express
 app.use(cors()); // Permite requisições de outras origens
 app.use(express.json({ limit: '10mb' })); // Para parsear JSON no corpo das requisições (com limite de 10MB)
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); // Para parsear dados de formulário (com limite de 10MB)
+app.use(express.static('public'));
 
 // Middleware de logging (opcional): registra cada requisição no console
 app.use((req, res, next) => {
@@ -38,15 +39,25 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Importar e usar rotas específicas (certifique-se de que os caminhos para 'routes' estão corretos)
-// Ex: './routes/auth' significa que 'auth.js' está dentro da pasta 'routes' que está dentro de 'src'
+// Importar e usar rotas específicas 
 const authRoutes = require('./routes/auth');
 const bookRoutes = require('./routes/books');
 const transactionRoutes = require('./routes/transactions');
+const messageRoutes = require('./routes/messageRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const userRoutes = require('./routes/userRoutes');
+const feedRoutes = require('./routes/feedRoutes');
+const ratingRoutes = require('./routes/ratingRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/feed', feedRoutes);
+app.use('/api/ratings', ratingRoutes); 
+
 
 // Middleware de tratamento de erros (deve ser o último middleware ANTES das rotas não encontradas)
 app.use((err, req, res, next) => {
